@@ -319,6 +319,16 @@ public interface Component extends PositionedRectangle {
     }
 
     /**
+     * Lifecycle hook, called after the component was mounted
+     */
+    EventSource<Mounted> mounted();
+
+    /**
+     * Lifecycle hook, called before the component was dismounted
+     */
+    EventSource<Dismounted> dismounted();
+
+    /**
      * Called when the mouse has been clicked inside
      * the bounding box of this component
      *

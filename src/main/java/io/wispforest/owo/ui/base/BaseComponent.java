@@ -32,6 +32,8 @@ public abstract class BaseComponent implements Component {
     protected final AnimatableProperty<Sizing> horizontalSizing = AnimatableProperty.of(Sizing.content());
     protected final AnimatableProperty<Sizing> verticalSizing = AnimatableProperty.of(Sizing.content());
 
+    protected final EventStream<Mounted> mountedEvents = Mounted.newStream();
+    protected final EventStream<Dismounted> dismountedEvents = Dismounted.newStream();
     protected final EventStream<MouseDown> mouseDownEvents = MouseDown.newStream();
     protected final EventStream<MouseUp> mouseUpEvents = MouseUp.newStream();
     protected final EventStream<MouseScroll> mouseScrollEvents = MouseScroll.newStream();
@@ -273,14 +275,26 @@ public abstract class BaseComponent implements Component {
     }
 
     @Override
+    public EventSource<Mounted> mounted() {
+        return mountedEvents.source();
+    }
+
+    @Override
+    public EventSource<Dismounted> dismounted() {
+        return dismountedEvents.source();
+    }
+
+    @Override
     public void mount(ParentComponent parent, int x, int y) {
         this.parent = parent;
         this.mounted = true;
         this.moveTo(x, y);
+        mountedEvents.sink().onMounted(parent, x, y);
     }
 
     @Override
     public void dismount(DismountReason reason) {
+        dismountedEvents.sink().onDismounted(parent, reason);
         this.parent = null;
         this.mounted = false;
     }

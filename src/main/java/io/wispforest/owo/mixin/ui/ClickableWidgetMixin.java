@@ -46,6 +46,16 @@ public abstract class ClickableWidgetMixin implements ComponentStub, net.minecra
     }
 
     @Override
+    public EventSource<Mounted> mounted() {
+        return this.owo$getWrapper().mounted();
+    }
+
+    @Override
+    public EventSource<Dismounted> dismounted() {
+        return this.owo$getWrapper().dismounted();
+    }
+
+    @Override
     public void dismount(DismountReason reason) {
         this.owo$getWrapper().dismount(reason);
     }

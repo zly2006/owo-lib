@@ -124,7 +124,17 @@ public interface ComponentStub extends Component {
     }
 
     @Override
+    default EventSource<Mounted> mounted() {
+        throw new IllegalStateException("Interface stub method called");
+    }
+
+    @Override
     default void dismount(DismountReason reason) {
+        throw new IllegalStateException("Interface stub method called");
+    }
+
+    @Override
+    default EventSource<Dismounted> dismounted() {
         throw new IllegalStateException("Interface stub method called");
     }
 
